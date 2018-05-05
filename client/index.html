@@ -7,6 +7,7 @@
 
     <!-- dependencies -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
     <script>
       // YOU DO NOT NEED TO EDIT THIS CODE
       if (!/(&|\?)username=/.test(window.location.search)) {
@@ -19,13 +20,27 @@
       }
     </script>
     <!-- your scripts -->
-    <script src="env/config.js"></script>
+    <script src="env/config.example.js"></script>
     <script src="scripts/app.js"></script>
+    <script src="scripts/codeRunners.js"></script>
   </head>
   <body>
     <div id="main">
       <h1>chatterbox</h1>
-      <!-- Your HTML goes here! -->
+      <div>
+        <label>Select A Room</label>
+        <button class="dropbtn" id="roomSelect"></button>
+        <div id="myDropDown" class="dropdown-content">
+          <a>option1</a>
+          <a>option2</a>
+          <a>option3</a>
+        </div>
+      </div>
+      <!-- <form> -->
+        <input type="text" name="new-message" id="new-message">
+        <button id="send-new-message">Send New Message</button>
+      <!-- </form> -->
+      <button id="get-new-messages">Get New Messages</button>
     </div>
     <div id="chats"></div>
   </body>
