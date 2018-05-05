@@ -1,5 +1,5 @@
 body {
-    background: #eee;
+    background: #5D737E;
     text-align: center;
     padding: 0 25px;
     font-family: arial, sans-serif;
@@ -9,10 +9,16 @@ body {
     width: 500px;
     margin: auto;
     text-align: left;
-    background: white;
+    background: #7EBDC2;
     padding: 50px 60px;
     border: solid #ddd;
     border-width: 0 1px 1px 1px;
+    border-radius: 10px;
+}
+
+#main {
+    background: #93A8AC;
+    padding: 30px 60px;
 }
 
 #main h1 {
@@ -20,6 +26,8 @@ body {
     font-size: 35px;
     margin-bottom: 5px;
     padding: 5px;
+    display: flex;
+    justify-content: center;
 }
 
 #main h1 span {
@@ -88,8 +96,4 @@ form input[type=text] {
     background-color: #0090da;
 }
 
-.user {
-    margin: 10px;
-    color: red;
-}
 

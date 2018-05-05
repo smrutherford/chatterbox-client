@@ -8,7 +8,8 @@ $(document).ready(function() {
   $('#get-new-messages').click( function() {
     console.log('clicked get-new-messages');
     $('#chats').empty();
-    app.fetch();
+    let data = app.fetch();
+    console.log(data);
   })
 
 
@@ -26,10 +27,13 @@ $(document).ready(function() {
   });
 
   // click handler for select a room
-  $('#roomSelect').on('click', function() {
-    $('#myDropdown').toggle();
-  });
+  $('#roomSelect').change(function() {
+    console.log('this.text(): ', $(this).val());
+    let roomName = $(this).val();
+    app.fetch(roomName);
+  })
+  
 
   //$('body').prepend('<div><img src="https://www.americanscientist.org/sites/americanscientist.org/files/2017-105-3-152-cheng-01-large.jpg"></div>')
   
-});
+}); 

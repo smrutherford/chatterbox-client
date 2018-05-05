@@ -15,27 +15,70 @@ var app = {
     let $msg = MessageNodeMaker(msg.username, msg.text, msg.roomName);
     $('#chats').append($msg);
   },
-  fetch: function() {
+  fetch: function(roomName) {
+    let dataObj = {
+      order: '-createdAt'  
+    };
+    if(roomName) {
+      dataObj['where'] = {"roomname": roomName};
+    }
     $.ajax({
       url: this.server, 
-      data: {order: '-createdAt'},
+      data: dataObj,
       success: function(data){
+        app.clearMessages();
         data.results.forEach(msg => {
           app.renderMessage(msg);
         })
+        app.addRoomNames(data);
       }
     })
+  },
+  getExistingRoomNames: function() {
+    let existingRoomNames = [];
+    // console.log('children: ', $('#roomSelect').children().length)
+    $('#roomSelect').children().each((i, child) => {
+      existingRoomNames.push(child.text);
+    });
+    return existingRoomNames;
+  },
+  addRoomNames: function(data) {
+    console.log('data: ', data);
+    let roomNames = [];
+    data.results.forEach(chat => {
+      let roomName = chat.roomname;
+      // console.log(chat.roomname);
+      // if (typeof roomName === 'string') {
+      //   roomName = roomName.replace(/\"\'/g, '');
+      // }
+      if (
+        roomName && 
+        typeof roomName === 'string' && 
+        !roomNames.includes(roomName)
+      ) {
+        roomNames.push(roomName);
+      }
+    });
+    console.log('roomNames: ', roomNames);
+    let existingRoomNames = this.getExistingRoomNames();
+    roomNames.forEach(roomName => {
+      if (!existingRoomNames.includes(roomName)) {
+        this.renderRoom(roomName);
+      }
+    });
   },
   clearMessages: function() {
     $('#chats').empty();
   },
-  renderRoom: function(){}
+  renderRoom: function(roomName){
+    $('#roomSelect').append(`<option class='room'>${roomName}</option>`);
+  }
 
 };
 
 const MessageNodeMaker = function(username, text, roomName) {
-  let $msg = $('<div class="msg"></div>');
-  let $user = $('<span class="user"></span>');
+  let $msg = $('<div class="chat"></div>');
+  let $user = $('<span class="username"></span>');
   let $text = $('<span class="text"></span>'); 
 
   $user.text(JSON.stringify(username));
@@ -43,4 +86,4 @@ const MessageNodeMaker = function(username, text, roomName) {
   $user.appendTo($msg);
   $text.appendTo($msg);
   return $msg;
-}
+} 
