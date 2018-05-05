@@ -12,7 +12,7 @@ var app = {
     })
   }, 
   renderMessage: function(msg) {
-    let $msg = MessageNodeMaker(msg.username, msg.text, msg.roomName);
+    let $msg = MessageNodeMaker(msg);
     $('#chats').append($msg);
   },
   fetch: function(roomName) {
@@ -72,18 +72,35 @@ var app = {
   },
   renderRoom: function(roomName){
     $('#roomSelect').append(`<option class='room'>${roomName}</option>`);
+  },
+  highlightFriends: function(chats){
+    chats.each((i, chat) => {
+      let username = $(chat).data('chatObj').username;
+      console.log('username: ', username);
+      console.log('friendsList: ', friendsList);
+      if(friendsList.includes(username)) {
+        console.log('found a friend');
+        $(chat).addClass('friend');
+      }
+    });
+  },
+  encodeHTML: function (s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
   }
 
 };
 
-const MessageNodeMaker = function(username, text, roomName) {
-  let $msg = $('<div class="chat"></div>');
+const MessageNodeMaker = function(chat) {
+  let $chat = $('<div class="chat"></div>');
   let $user = $('<span class="username"></span>');
   let $text = $('<span class="text"></span>'); 
 
-  $user.text(JSON.stringify(username));
-  $text.text(JSON.stringify(text));        
-  $user.appendTo($msg);
-  $text.appendTo($msg);
-  return $msg;
+  $user.text(app.encodeHTML(chat.username));
+  $text.text(app.encodeHTML(chat.text));        
+  $user.appendTo($chat);
+  $text.appendTo($chat);
+  $chat.data('chatObj', chat);
+  return $chat;
 } 
+
+const friendsList = [];

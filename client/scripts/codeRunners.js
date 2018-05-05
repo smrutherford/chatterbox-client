@@ -7,7 +7,6 @@ $(document).ready(function() {
   // click handler for refresh
   $('#get-new-messages').click( function() {
     console.log('clicked get-new-messages');
-    $('#chats').empty();
     let data = app.fetch();
     console.log(data);
   })
@@ -28,10 +27,19 @@ $(document).ready(function() {
 
   // click handler for select a room
   $('#roomSelect').change(function() {
-    console.log('this.text(): ', $(this).val());
+    console.log('this.val(): ', $(this).val());
     let roomName = $(this).val();
     app.fetch(roomName);
   })
+
+  // click handler for friending
+  $('#chats').on('click', '.username', function(){
+    let newFriend = $(this).text();
+    friendsList.push(newFriend);
+    console.log('add a new friend: ', friendsList[friendsList.length-1]);
+    let $chats = $('.chat');
+    app.highlightFriends($chats);
+  });
   
 
   //$('body').prepend('<div><img src="https://www.americanscientist.org/sites/americanscientist.org/files/2017-105-3-152-cheng-01-large.jpg"></div>')
