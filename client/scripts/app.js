@@ -83,9 +83,6 @@ var app = {
         $(chat).addClass('friend');
       }
     });
-  },
-  encodeHTML: function (s) {
-    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
   }
 
 };
@@ -95,8 +92,8 @@ const MessageNodeMaker = function(chat) {
   let $user = $('<span class="username"></span>');
   let $text = $('<span class="text"></span>'); 
 
-  $user.text(app.encodeHTML(chat.username));
-  $text.text(app.encodeHTML(chat.text));        
+  $user.text(DOMPurify.sanitize(chat.username));
+  $text.text(DOMPurify.sanitize(chat.text));        
   $user.appendTo($chat);
   $text.appendTo($chat);
   $chat.data('chatObj', chat);
